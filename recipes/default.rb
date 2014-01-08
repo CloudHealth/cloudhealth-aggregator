@@ -54,12 +54,14 @@ end
 
 remote_file "#{node.cloudhealth.aggregator.install_path}/lib/java/jruby-complete-#{node.cloudhealth.aggregator.jruby_version}.jar" do
   source node.cloudhealth.aggregator.jruby_url
+  mode "0755"
   action :create_if_missing
    notifies :create, "ruby_block[Validate jRuby Checksum]", :immediately
 end
 
 remote_file "#{node.cloudhealth.aggregator.install_path}/#{node.cloudhealth.aggregator.filename}" do
   source node.cloudhealth.aggregator.bucket_url + node.cloudhealth.aggregator.filename
+  mode "0755"
   action :create_if_missing
   notifies :create, "ruby_block[Validate Aggregator Checksum]", :immediately
 end
