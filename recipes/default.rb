@@ -9,7 +9,7 @@
 #
 
 # Note: Aggregator requires Java OpenJDK 7, so this installs 7.
-include_recipe "java::openjdk"
+include_recipe "java"
 
 group node.cloudhealth.aggregator.group do
   system true

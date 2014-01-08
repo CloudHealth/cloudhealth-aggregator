@@ -1,4 +1,5 @@
 override['java']['jdk_version'] = '7'
+override['java']['install_flavor'] = 'openjdk'
 default['java']['accept_license_agreement'] = true
 
 # This is the only setting the cookbook needs outside the defaults, 
