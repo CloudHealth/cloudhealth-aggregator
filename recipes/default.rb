@@ -46,8 +46,8 @@ ruby_block "Validate Aggregator Checksum" do
   block do
     require 'digest'
     checksum = Digest::SHA1.file("#{node.cloudhealth.aggregator.install_path}/#{node.cloudhealth.aggregator.filename}").hexdigest
-    if checksum != node.cloudhealth.aggregator.jruby_sha
-      raise "Downloaded jruby file does not match sha of #{node.cloudhealth.aggregator.jruby_sha}, Either something funny is going on or jruby was upgraded in place."
+    if checksum != node.cloudhealth.aggregator.sha
+      raise "Downloaded aggregator file does not match sha of #{node.cloudhealth.aggregator.jruby_sha}, Either something funny is going on or jruby was upgraded in place."
     end
   end
 end
