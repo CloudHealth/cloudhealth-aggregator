@@ -45,7 +45,7 @@ ruby_block "Validate Aggregator Checksum" do
   action :nothing
   block do
     require 'digest'
-    checksum = Digest::SHA1.file("#{node.cloudhealth.aggregator.install_path}#{node.cloudhealth.aggregator.filename}").hexdigest
+    checksum = Digest::SHA1.file("#{node.cloudhealth.aggregator.install_path}cht_aggregator.jar").hexdigest
     if checksum != node.cloudhealth.aggregator.sha
       raise "Downloaded aggregator file does not match sha of #{node.cloudhealth.aggregator.jruby_sha}, Either something funny is going on or jruby was upgraded in place."
     end
@@ -59,7 +59,7 @@ remote_file "#{node.cloudhealth.aggregator.install_path}lib/java/jruby-complete-
    notifies :create, "ruby_block[Validate jRuby Checksum]", :immediately
 end
 
-remote_file "#{node.cloudhealth.aggregator.install_path}#{node.cloudhealth.aggregator.filename}" do
+remote_file "#{node.cloudhealth.aggregator.install_path}cht_aggregator.jar" do
   source node.cloudhealth.aggregator.bucket_url + node.cloudhealth.aggregator.filename
   mode "0755"
   action :create_if_missing
@@ -67,7 +67,7 @@ remote_file "#{node.cloudhealth.aggregator.install_path}#{node.cloudhealth.aggre
 end
 
 execute "Setup Cloudhealth Aggregator" do
-  command "java -jar #{node.cloudhealth.aggregator.filename} setup --endpoint='#{node.cloudhealth.aggregator.endpoint}' --token='#{node.cloudhealth.aggregator.token}' --output=cht_aggregator"
+  command "java -jar cht_aggregator.jar setup --endpoint='#{node.cloudhealth.aggregator.endpoint}' --token='#{node.cloudhealth.aggregator.token}' --output=cht_aggregator"
   cwd node.cloudhealth.aggregator.install_path
   not_if "test -e #{node.cloudhealth.aggregator.install_path}.vault"
 end
